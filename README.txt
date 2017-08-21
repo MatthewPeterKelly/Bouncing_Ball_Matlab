@@ -49,4 +49,4 @@ ground. This is a bad assumption if there is a steep hill and the ball
 is moving horizontally through it. 
 
 2) If the ball velocity after the collision is very small, it can 
-sometimes case the event detection to fail.
+sometimes cause the event detection to fail.
