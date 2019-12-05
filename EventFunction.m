@@ -1,7 +1,6 @@
 function [value,isterminal,direction] = EventFunction(~,X)
-
-x = X(1,:);
-y = X(2,:);
+%% [value,isterminal,direction] = EventFunction(~,X)
+x = X(1,:); y = X(2,:);
 ground = groundHeight(x);
 
 value = y-ground;
