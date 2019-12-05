@@ -1,13 +1,13 @@
 function [stateOut, ballRolling] = impactMap(stateIn,P)
-%
+%% [stateOut, ballRolling] = impactMap(stateIn,P)
 % This function computes the impact map for the collision that occurs when
 % the ball hits the ground.
 %
 % It is assumed that the collision occurs instantaneously, and that the
 % coefficient of restitution is applied normal to the ground at the
 % point of impact. The tangential component of the velocity is
-% unaffected by the collision. 
-% 
+% unaffected by the collision.
+%
 % INPUTS:
 %   stateIn = the state immediately before the collision
 %   P = parameter struct, defined in Set_Paramters.m
@@ -24,10 +24,10 @@ velIn = stateIn(3:4,:);   %The velocity before the collision
 horizPos = stateIn(1,:);  %The horizontal position of the collision
 
 %Get the slope of the ground at the collision location
-[~,groundSlope] = groundHeight(horizPos);   
+[~,groundSlope] = groundHeight(horizPos);
 
 %Rename the coefficient of restitution
-e = P.coeff_restitution; 
+e = P.coeff_restitution;
 
 %Get the angle between the horizontal axis and the tangent to the ground
 theta = atan2(groundSlope,1);
@@ -41,7 +41,7 @@ R = [...
 %Get the collision map for a simple collision, that occurs when the axis
 %are aligned nicely (only the vertical component is affected)
 E = [1 0;
-     0 -e];
+    0 -e];
 
 % Compute the collision
 %   This matrix calculation does the following, in order:
@@ -60,13 +60,13 @@ stateOut = [posOut;velOut];
 
 %Check if the ball should start rolling:
 if velNT(1)/velNT(2) > P.rollingThreshold
-   %The ball will start rolling, because its velocity is nearly tangent
-   %to the collision surface:
-   disp('The ball is assumed to start rolling, due to the small normal velocity after the collision.');
+    %The ball will start rolling, because its velocity is nearly tangent
+    %to the collision surface:
+    disp('The ball is assumed to start rolling, due to the small normal velocity after the collision.');
     ballRolling = true;
 else
     ballRolling = false;
 end
-    
+
 
 end

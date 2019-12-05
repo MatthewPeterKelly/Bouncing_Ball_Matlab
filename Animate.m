@@ -1,5 +1,5 @@
 function Animate(timeAll,stateAll,stateOde,P)
-%
+%% Animate(timeAll,stateAll,stateOde,P)
 % This function is used to animate the simulation data
 %
 % INPUTS:
@@ -14,25 +14,25 @@ function Animate(timeAll,stateAll,stateOde,P)
 clf;
 
 %break out the data:
-    xPos = stateAll(1,:);
-    yPos = stateAll(2,:);
-    Pos = [xPos;yPos];
+xPos = stateAll(1,:);
+yPos = stateAll(2,:);
+Pos = [xPos;yPos];
 
 %Get the ground shape
-    xGround = linspace(min(xPos),max(xPos),1000);   
-    yGround = groundHeight(xGround);
+xGround = linspace(min(xPos),max(xPos),1000);
+yGround = groundHeight(xGround);
 
 %Get the extents for plotting:
-    Extents = [min(xPos),max(xPos),min(yGround),max(yPos)];
+Extents = [min(xPos),max(xPos),min(yGround),max(yPos)];
 
-    
-tic; %Start a timer for synchronizing the animation   
+
+tic; %Start a timer for synchronizing the animation
 
 endTime = timeAll(end);
 SlowMo = P.slowMotionFactor;
 cpuTime=toc/SlowMo;
 counter = 1;  %Keeps track of the current plotting index
-while (cpuTime<endTime)  
+while (cpuTime<endTime)
     
     cpuTime = toc/SlowMo;
     while (timeAll(counter)<cpuTime) && counter<length(timeAll)
@@ -43,28 +43,28 @@ while (cpuTime<endTime)
     
     %Check if the ball has left the screen:
     if PosNow(2) < Extents(3)
-       %if the ball height is less than the lower part of the plot
-       disp('The ball left the field of view!')
-       break;
+        %if the ball height is less than the lower part of the plot
+        disp('The ball left the field of view!')
+        break;
     end
     
     %clear the figure
     clf; hold on; axis(Extents); axis equal; axis manual;
     
     %Plot the ball
-    plot(PosNow(1),PosNow(2),'b.','MarkerSize',P.PlotBallSize); 
+    plot(PosNow(1),PosNow(2),'b.','MarkerSize',P.PlotBallSize);
     
     %Plot the trace
-    plot(Pos(1,1:counter),Pos(2,1:counter),'b--','LineWidth',max(P.CurveLineWidth-1,1)); 
+    plot(Pos(1,1:counter),Pos(2,1:counter),'b--','LineWidth',max(P.CurveLineWidth-1,1));
     
     %Plot the ground
     plot(xGround,yGround,'k-','LineWidth',P.CurveLineWidth);
-
+    
     %Annotations
     ylabel('Vertical Position (m)','FontSize',P.LabelFontSize)
     xlabel('Horizontal Position (m)','FontSize',P.LabelFontSize)
     title('Path taken by the ball','fontsize',P.TitleFontSize)
-    set(gca,'fontsize',P.AxisFontSize);    
+    set(gca,'fontsize',P.AxisFontSize);
     
     %Force the plot to appear:
     drawnow; pause(0.001);
